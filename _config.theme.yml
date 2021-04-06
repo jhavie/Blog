@@ -7,11 +7,11 @@ menu:
   Repository: repository  # github repositories
 #  Books: books  # 豆瓣书单
   Links: links  # 友链
-  About: about  # 关于
+  # About: about  # 关于
 
 # Enable/Disable menu icons
 menu_icons:
-  enable: true  # 是否启用导航菜单图标
+  enable: false  # 是否启用导航菜单图标
   home: icon-home
   archives: icon-archive
   categories: icon-folder
@@ -19,7 +19,7 @@ menu_icons:
   repository: icon-project
   books: icon-book
   links: icon-friend
-  about: icon-cup
+  # about: icon-cup
 
 site:
   favicon: /images/favicon.ico
@@ -42,7 +42,7 @@ comment:
   livere:
     uid: # enter youyan uid
   gitalk: # gitalk. https://gitalk.github.io/
-    owner: fengkx #必须. GitHub repository 所有者，可以是个人或者组织。
+    owner: Jiashenghui #必须. GitHub repository 所有者，可以是个人或者组织。
     admin: fengkx #必须. GitHub repository 的所有者和合作者 (对这个 repository 有写权限的用户)。
     repo: blog-comment #必须. GitHub repository.
     ClientID:  #必须. GitHub Application Client ID.
@@ -68,7 +68,7 @@ postCount:
   wordcount: true  # 文章字数统计
   min2read: true  # 阅读时长预计
 
-search: true # enable local search
+search: false # enable local search
 toc: true
 fancybox: true
 license: 'This article is available under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a> License'
@@ -78,18 +78,18 @@ footer:
 profile:
   enabled: true # Whether to show profile bar
 #  avatar: images/avatar.jpg
-  gravatar: MyEmailAddress@example.com # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
-  author: fengkx
+  gravatar: jhavie@163.com # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
+  author: Jia
   author_title: Student & Coder
   author_description: Having fun
-  location: Guangzhou, China
-  follow: https://github.com/fengkx
+  location: Shanghai, China
+  # follow: https://github.com/fengkx
   # Social Links
   social:
     links:
-      github: https://github.com/fengkx
-      telegram: https://t.me/fengkx
-      twitter: https://twitter.com/example
+      # github: https://github.com/fengkx
+      # telegram: https://t.me/fengkx
+      # twitter: https://twitter.com/example
       # facebook: /
       # dribbble: /
 #      behance: https://www.behance.net/cofess
@@ -97,17 +97,17 @@ profile:
     link_tooltip: true # enable the social link tooltip, options: true, false
 
   # My Personal Links
-  links:
-    Github: https://github.com/fengkx
-    Blog: http://www.fengkx.top
-    Email: i#fengkx.top(请将#替换成@)
-    Wechat: liang222liang
+  # links:
+  #   Github: https://github.com/fengkx
+  #   Blog: http://www.fengkx.top
+  #   Email: i#fengkx.top(请将#替换成@)
+  #   Wechat: liang222liang
   # My Personal Labels
   labels:
-    - 前端
-    - Node.js
-    - Golang
-    - Linux日常使用
+    # - 前端
+    # - Node.js
+    # - Golang
+    # - Linux日常使用
   skills:
     Git: ★★★☆☆
     Gulp: ★★★☆☆
@@ -118,12 +118,12 @@ profile:
   works:
    name:
      link: http://www.example.com
-     date: 2016
+     date: 2021
   # My Personal Projects
   projects:
-    fengkx/NodeRSSBot: https://github.com/fengkx/NodeRSSBot
-    fengkx/translator: https://github.com/fengkx/translator
-    fengkx/cacheman-level: https://github.com/fengkx/cacheman-level
+    # fengkx/NodeRSSBot: https://github.com/fengkx/NodeRSSBot
+    # fengkx/translator: https://github.com/fengkx/translator
+    # fengkx/cacheman-level: https://github.com/fengkx/cacheman-level
 
 
 widgets:
