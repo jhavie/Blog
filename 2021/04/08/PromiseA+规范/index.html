@@ -12,7 +12,7 @@
 <meta property="og:description" content="PromiseA+规范术语 Promise 是一个有then的方法的对象或者是函数，行为遵循本规范 thenable 是一个有then方法的对象或者是函数 value 是Promise状态成功时的值，也就是resolve的参数，包括各种数据类型，也包括undefined&#x2F;thenable或者是Promise reason 是Promise状态失败时的值，也就是reject的参数，表示拒绝的原因 e">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-04-08T14:03:48.925Z">
-<meta property="article:modified_time" content="2021-04-08T14:14:50.231Z">
+<meta property="article:modified_time" content="2021-04-08T14:21:46.680Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="编程">
 <meta property="article:tag" content="前端">
@@ -181,7 +181,20 @@
 <li>reason 是Promise状态失败时的值，也就是reject的参数，表示拒绝的原因</li>
 <li>exception 是一个使用throw抛出的异常值</li>
 </ol>
-<h2 id="规范"><a href="#规范" class="headerlink" title="规范"></a>规范</h2><h3 id="Promise-States"><a href="#Promise-States" class="headerlink" title="Promise States"></a>Promise States</h3><h3 id="then"><a href="#then" class="headerlink" title="then"></a>then</h3>
+<h2 id="规范"><a href="#规范" class="headerlink" title="规范"></a>规范</h2><p>接下来分几部分来讲解PromiseA+规范. </p>
+<h3 id="Promise-States"><a href="#Promise-States" class="headerlink" title="Promise States"></a>Promise States</h3><p>promise应该有三种状态. 要注意他们之间的流转关系.</p>
+<ol>
+<li><p>pending</p>
+<p> 1.1 初始的状态, 可改变.<br> 1.2 一个promise在resolve或者reject前都处于这个状态。<br> 1.3 可以通过 resolve -&gt; fulfilled 状态;<br> 1.4 可以通过 reject -&gt; rejected 状态;</p>
+</li>
+<li><p>fulfilled</p>
+<p> 2.1 最终态, 不可变.<br> 2.2 一个promise被resolve后会变成这个状态.<br> 2.3 必须拥有一个value值</p>
+</li>
+<li><p>rejected</p>
+<p> 3.1 最终态, 不可变.<br> 3.2 一个promise被reject后会变成这个状态<br> 3.3 必须拥有一个reason</p>
+</li>
+</ol>
+<h3 id="then"><a href="#then" class="headerlink" title="then"></a>then</h3>
         </div>
         
 <blockquote class="copyright">
