@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>React知识点总结 | Hexo</title>
+    <meta name="description" content="JSX基础知识介绍我们可以直接引入react.js和react-dom.js两个库，使用react时，我们可以使用JSX语法来书写我们的模版 1&lt;div className&#x3D;&amp;#x27;&amp;#x27;foo&gt;bar&lt;&#x2F;div&gt; 这是一种非常类似DOM的xml结构的语法，唯一有区别的是，我们可以在JSX中使用{}来使用JS表达式 1&lt;div className&#x3D;&amp;quot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React知识点总结">
+<meta property="og:url" content="http://example.com/2021/07/04/React%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JSX基础知识介绍我们可以直接引入react.js和react-dom.js两个库，使用react时，我们可以使用JSX语法来书写我们的模版 1&lt;div className&#x3D;&amp;#x27;&amp;#x27;foo&gt;bar&lt;&#x2F;div&gt; 这是一种非常类似DOM的xml结构的语法，唯一有区别的是，我们可以在JSX中使用{}来使用JS表达式 1&lt;div className&#x3D;&amp;quot">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-04T11:42:56.000Z">
+<meta property="article:modified_time" content="2021-07-24T12:46:43.925Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="Javascript">
+<meta property="article:tag" content="React.js">
+<meta name="twitter:card" content="summary">
+
+    
+    
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/3c6821a216040a03a1ecedc0d1aa8b75?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">Jia</h2>
+            <h3 id="title" class="hidden xl:block">Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Shanghai, China
+            </small>
+            
+        </div>
+        
+        
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">首页</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">归档</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">分类</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">标签</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">项目</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">友链</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            React知识点总结
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2021/07/04/React%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/" class="article-date">
+	  <time datetime="2021-07-04T11:42:56.000Z" itemprop="datePublished">7月 4</time>
+	</a>
+</span>
+
+                
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/Javascript/" rel="tag">Javascript</a>, <a class="article-tag-none-link" href="/tags/React-js/" rel="tag">React.js</a>, <a class="article-tag-none-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a>, <a class="article-tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2021/07/04/React%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/#comments" class="article-comment-link">
+                        评论
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h2 id="JSX基础知识介绍"><a href="#JSX基础知识介绍" class="headerlink" title="JSX基础知识介绍"></a>JSX基础知识介绍</h2><p>我们可以直接引入react.js和react-dom.js两个库，使用react时，我们可以使用JSX语法来书写我们的模版</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&#x27;&#x27;</span><span class="attr">foo</span>&gt;</span>bar<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这是一种非常类似DOM的xml结构的语法，唯一有区别的是，我们可以在JSX中使用{}来使用JS表达式</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div className=<span class="string">&quot;foo&quot;</span>&gt;&#123; something ? <span class="string">&#x27;something is true&#x27;</span> : <span class="string">&#x27;something is false&#x27;</span> &#125;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>这里的表达式当然也可以执行函数，数组map等等形式，只需要这个式子是一个表达式即可，但这里要注意千万不呢个直接在JSX中写执行诸如if else的形式，可以把它改造成一个三目运算符。<br>在JSX中我们需要保证渲染的内容必须是合法的JSX元素，合法的JSX元素有：</p>
+<ul>
+<li>普通的DOM标签，如div/p/span等等</li>
+<li>声明的React组件，例如通过class或函数创建的JSX组件</li>
+<li>null 最终会渲染一个空元素</li>
+<li>字符串 最终会渲染一个text节点</li>
+<li>对于数字类型，最终就会渲染出来，所有时候通过布尔表达式判断的时候就会出问题<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123; <span class="literal">false</span> &amp;&amp; (<span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>this is false<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span>)&#125; <span class="comment">// 不会渲染内容</span></span><br><span class="line">&#123; <span class="number">0</span> &amp;&amp; (<span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>this is false<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span>)&#125; <span class="comment">// 会渲染0</span></span><br></pre></td></tr></table></figure>
+我们可以通过React.isValidElement来判断一个内容元素是不是一个合法的react element<br>同时需要注意的是，因为class/for这类是html属性的关键字，所以在JSX中我们想要使用，就必须用className/htmlFor的形式来定义<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;label className=<span class="string">&quot;foo&quot;</span> htmlFor=<span class="string">&quot;name&quot;</span>&gt;label&lt;/label&gt;</span><br></pre></td></tr></table></figure>
+事实上我们并不能直接在浏览器中使用JSX内容，我们需要搭配一些编译库将JSX语法进行编译。比较知名的就是babel，搭配babel-plugin-transform-react-jsx插件，可以将JSX编译为react的内部方法。<br>例如这个例子，经过babel和配套插件就可以将这种形式进行编译：<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;h3 className=<span class="string">&quot;h3&quot;</span>&gt;&#123;somthing ? <span class="string">&quot;something is true&quot;</span> : <span class="string">&quot;something is false&quot;</span>&#125;&lt;/h3&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+最终结果即为<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">React.createElement(</span><br><span class="line">    <span class="string">&quot;div&quot;</span>,</span><br><span class="line">    <span class="literal">null</span>,</span><br><span class="line">    React.createElement(</span><br><span class="line">        <span class="string">&quot;h3&quot;</span>,</span><br><span class="line">        &#123; <span class="attr">className</span>: <span class="string">&quot;h3&quot;</span> &#125;,</span><br><span class="line">        something ? <span class="string">&quot;something is true&quot;</span> : <span class="string">&quot;something is false&quot;</span></span><br><span class="line">    )</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+React.createElement主要分为三类参数，第一个是组件的名字，第二个参数是当前组件接受的属性，第三个之后的参数都是当前组件嵌套的子组件。</li>
+</ul>
+<h2 id="JSX总结"><a href="#JSX总结" class="headerlink" title="JSX总结"></a>JSX总结</h2><ul>
+<li>JSX是一种语法糖， 我们需要将他们编译为React.createElement的形式</li>
+<li>写JSX需要注意类型必须合法，尤其是写布尔表达式的时候需要额外注意，尽量使用三木运算符来书写JSX</li>
+<li>需要主要class和for标签在书写的时需要改为className和htmlFor</li>
+</ul>
+<h2 id="函数组件-和-class组件-受控组件和非受控组件"><a href="#函数组件-和-class组件-受控组件和非受控组件" class="headerlink" title="函数组件 和 class组件 / 受控组件和非受控组件"></a>函数组件 和 class组件 / 受控组件和非受控组件</h2><p>在react中，我们可以使用class形式 或是 函数的形式来进行创建一个组件，<br>例如一下两种形式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数形式</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;&#123;props.text || <span class="string">&#x27;Foo&#x27;</span>&#125;&lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 类形式</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bar</span>  <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;&#123;props.text || <span class="string">&#x27;Bar&#x27;</span>&#125;&lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>区别</p>
+<ul>
+<li>加载的props方式不同<ol>
+<li>函数式定义组件从组件函数的参数加载</li>
+<li>class形式的组件通过this.props获取传入的参数</li>
+</ol>
+</li>
+<li>状态维护不同<ol>
+<li>函数式组件比较简单，内部无法维护状态（无状态组件）</li>
+<li>class形式内部可以通过this.state和this.setState方法更新内部state和更新内部state，同时更新render里面的函数渲染结果</li>
+</ol>
+</li>
+<li>灵活性不同<ol>
+<li>函数无法定义更多的方法</li>
+<li>class组件内部可以定义更多的方法在实例上</li>
+</ol>
+</li>
+<li>性能不同<ol>
+<li>函数式组件比较精简 性能相对好一点</li>
+<li>class组件内部有生命周期 需要new实例 性能相对差一点</li>
+</ol>
+</li>
+</ul>
+<h2 id="组件的生命周期"><a href="#组件的生命周期" class="headerlink" title="组件的生命周期"></a>组件的生命周期</h2><p>在class形式的组件中，我们可以定义一下生命周期的方法，会在特定的时间执行它。<br>componentWillMount -&gt; render -&gt; componentDidMount<br>componentWillReceiveProps -&gt; componentWillUpdate -&gt; render -&gt; componentDidUpdate<br>这里需要注意的就是，同Vue的生命周期一样，我们最好在componentDidMount中发送请求，这样整个组件对服务端的渲染比较友好。</p>
+<h2 id="常见的错误和性能问题"><a href="#常见的错误和性能问题" class="headerlink" title="常见的错误和性能问题"></a>常见的错误和性能问题</h2><h3 id="异步过程使用单例的event对象"><a href="#异步过程使用单例的event对象" class="headerlink" title="异步过程使用单例的event对象"></a>异步过程使用单例的event对象</h3><p>全局单例的event对象，所以在异步对象中使用react事件时需要额外注意。异步操作最好将对象内部需要的值先进行拷贝赋值。<br>内部会代理event</p>
+<ul>
+<li>兼容性 不依赖DOM Event事件</li>
+<li>性能优化 全局单例 大型应用事件过多<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    state: &#123;</span><br><span class="line">        test: <span class="string">&#x27;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">clickHandle</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> text = e.currentTarget.innerText;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(text);</span><br><span class="line">            <span class="built_in">console</span>.log(e.currentTarget.innerText); <span class="comment">// undeinfed</span></span><br><span class="line">        &#125;, <span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">clickHandle2</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(e.currentTarget.innerText);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div className=<span class="string">&quot;App&quot;</span>&gt;</span><br><span class="line">                &lt;button onClick=&#123;<span class="built_in">this</span>.clickHandle&#125;&gt;Button&lt;/button&gt;</span><br><span class="line">                &lt;button onClick=&#123;<span class="built_in">this</span>.clickHandle2&#125;&gt;Button&lt;/button&gt;</span><br><span class="line">                &lt;button onClick=&#123;<span class="built_in">this</span>.renderRandomText.bind(<span class="built_in">this</span>)&#125;&gt;Button&lt;/button&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">renderRandomText</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.setState(&#123; <span class="attr">text</span>: <span class="built_in">Math</span>.random(<span class="number">0</span>, <span class="number">1</span>) &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+组件生命周期，它描述了整个组件在创建、实例化、销毁过程中不同过程中执行的方法。我们需要特别注意，不要在render中定义单独引用的内容。也就是不要在render中使用箭头函数，否则很容易运行时造成自组件的重新渲染。</li>
+</ul>
+
+        </div>
+        
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="toc-sidebar">
+        <nav id="toc" class="article-toc">
+            <h3 class="toc-title">文章目录</h3>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JSX%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">JSX基础知识介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSX%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">JSX总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6-%E5%92%8C-class%E7%BB%84%E4%BB%B6-%E5%8F%97%E6%8E%A7%E7%BB%84%E4%BB%B6%E5%92%8C%E9%9D%9E%E5%8F%97%E6%8E%A7%E7%BB%84%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">函数组件 和 class组件 &#x2F; 受控组件和非受控组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">4.</span> <span class="toc-text">组件的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E9%94%99%E8%AF%AF%E5%92%8C%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98"><span class="toc-number">5.</span> <span class="toc-text">常见的错误和性能问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E8%BF%87%E7%A8%8B%E4%BD%BF%E7%94%A8%E5%8D%95%E4%BE%8B%E7%9A%84event%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.1.</span> <span class="toc-text">异步过程使用单例的event对象</span></a></li></ol></li></ol>
+        </nav>
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>
