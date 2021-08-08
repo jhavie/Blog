@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>this指向 作用域与闭包 | Hexo</title>
+    <meta name="description" content="this问题总结 ES6 的模块自动采用严格模式，不管你有没有在模块头部加上”use strict”;。 严格模式主要有以下限制。 变量必须声明后再使用 函数的参数不能有同名属性，否则报错 不能使用with语句 不能对只读属性赋值，否则报错 不能使用前缀0表示八进制数，否则报错 不能删除不可删除的属性，否则报错 不能删除变量delete prop，会报错，只能删除属性delete global[p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="this指向 作用域与闭包">
+<meta property="og:url" content="http://example.com/2021/08/08/this%E6%8C%87%E5%90%91-%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="this问题总结 ES6 的模块自动采用严格模式，不管你有没有在模块头部加上”use strict”;。 严格模式主要有以下限制。 变量必须声明后再使用 函数的参数不能有同名属性，否则报错 不能使用with语句 不能对只读属性赋值，否则报错 不能使用前缀0表示八进制数，否则报错 不能删除不可删除的属性，否则报错 不能删除变量delete prop，会报错，只能删除属性delete global[p">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-08T02:13:35.000Z">
+<meta property="article:modified_time" content="2021-08-08T04:08:00.122Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="Javascript">
+<meta property="article:tag" content="课程笔记">
+<meta name="twitter:card" content="summary">
+
+    
+    
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/3c6821a216040a03a1ecedc0d1aa8b75?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">Jia</h2>
+            <h3 id="title" class="hidden xl:block">Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Shanghai, China
+            </small>
+            
+        </div>
+        
+        
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">首页</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">归档</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">分类</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">标签</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">项目</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">友链</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            this指向 作用域与闭包
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2021/08/08/this%E6%8C%87%E5%90%91-%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/" class="article-date">
+	  <time datetime="2021-08-08T02:13:35.000Z" itemprop="datePublished">8月 8</time>
+	</a>
+</span>
+
+                
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/Javascript/" rel="tag">Javascript</a>, <a class="article-tag-none-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a>, <a class="article-tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>, <a class="article-tag-none-link" href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag">课程笔记</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2021/08/08/this%E6%8C%87%E5%90%91-%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/#comments" class="article-comment-link">
+                        评论
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h2 id="this问题总结"><a href="#this问题总结" class="headerlink" title="this问题总结"></a>this问题总结</h2><ul>
+<li>ES6 的模块自动采用严格模式，不管你有没有在模块头部加上”use strict”;。</li>
+<li>严格模式主要有以下限制。</li>
+<li>变量必须声明后再使用</li>
+<li>函数的参数不能有同名属性，否则报错</li>
+<li>不能使用with语句</li>
+<li>不能对只读属性赋值，否则报错</li>
+<li>不能使用前缀0表示八进制数，否则报错</li>
+<li>不能删除不可删除的属性，否则报错</li>
+<li>不能删除变量delete prop，会报错，只能删除属性delete global[prop]</li>
+<li>eval不会在它的外层作用域引入变量</li>
+<li>eval和arguments不能被重新赋值</li>
+<li>arguments不会自动反映函数参数的变化</li>
+<li>不能使用arguments.callee</li>
+<li>不能使用arguments.caller</li>
+<li>禁止this指向全局对象</li>
+<li>不能使用fn.caller和fn.arguments获取函数调用的堆栈</li>
+<li>增加了保留字（比如protected、static和interface）</li>
+</ul>
+<p>默认绑定（函数直接调用）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn();</span><br><span class="line"><span class="comment">// 此处this为默认绑定 指向global对象</span></span><br></pre></td></tr></table></figure>
+
+<p>严格模式下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="meta">    &#x27;use strict&#x27;</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn();</span><br><span class="line"><span class="comment">// 严格模式下 此处this打印出来未undefined</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// &#x27;use strict&#x27;</span></span><br><span class="line">	<span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line">	<span class="comment">// console.log(...arguments, arguments);</span></span><br><span class="line">	<span class="built_in">console</span>.log(<span class="built_in">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a, <span class="keyword">typeof</span> a);</span><br><span class="line"><span class="comment">// 打印出来1, &#x27;number&#x27; 函数先被提升到上面 然后a再被重新声明为number 1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// &#x27;use strict&#x27;</span></span><br><span class="line">	<span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="built_in">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line">fn();</span><br><span class="line"><span class="comment">// 打印出undefined 指向global 但函数提升</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    fn: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="built_in">this</span>.a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.fn();</span><br><span class="line"><span class="comment">// 输出1</span></span><br><span class="line"><span class="keyword">const</span> f = obj.fn;</span><br><span class="line">f();</span><br><span class="line"><span class="comment">// 输出undefined</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="隐式绑定（属性访问调用）"><a href="#隐式绑定（属性访问调用）" class="headerlink" title="隐式绑定（属性访问调用）"></a>隐式绑定（属性访问调用）</h2><p>隐式绑定的this指的是调用堆栈的上一级（.前面一个）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    a: <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line">obj.fn = fn;</span><br><span class="line">obj.fn();</span><br><span class="line"><span class="comment">// 打印出来1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> obj1 = &#123;</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    fn</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> obj2 = &#123;</span><br><span class="line">    a: <span class="number">2</span>,</span><br><span class="line">    obj1</span><br><span class="line">&#125;;</span><br><span class="line">obj2.obj1.fn();</span><br><span class="line"><span class="comment">// 打印出来1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>边界情况，比如隐式绑定失效：<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一种</span></span><br><span class="line"><span class="keyword">const</span> obj1 = &#123;</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    fn: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="built_in">this</span>.a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> fn1 = obj1.fn;</span><br><span class="line">fn1();</span><br><span class="line"><span class="comment">// 赋值丢失this</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二种 setTimeout</span></span><br><span class="line">setTImeout(obj1.fn, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三种 函数作为参数传递</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    fn();</span><br><span class="line">&#125;</span><br><span class="line">run(obj1.fn);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第四种 一般匿名函数也是会指向全局的</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">&#x27;The Window&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    name: <span class="string">&#x27;My obj&#x27;</span>,</span><br><span class="line">    getName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 这是一个匿名函数</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="built_in">this</span>.name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.getName()();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第五种 函数赋值也会改变this指向，这也是react中事件处理函数为啥要bind一下的原因</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第六种</span></span><br><span class="line"><span class="comment">// IIFE(立即调用函数表达式)</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="显示绑定（call、bind、apply）"><a href="#显示绑定（call、bind、apply）" class="headerlink" title="显示绑定（call、bind、apply）"></a>显示绑定（call、bind、apply）</h2><p>通过显式的一些方法去强行的绑定this上下文</p>
+<ul>
+<li><p>call</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    a: <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line">fn.call(obj);</span><br><span class="line"><span class="comment">// 打印出来100</span></span><br></pre></td></tr></table></figure></li>
+<li><p>bind</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 为啥可以绑定基本类型？</span></span><br><span class="line"><span class="comment">// boxing(装箱) -&gt; (1 ----&gt; Number(1))</span></span><br><span class="line"><span class="comment">// bind只看第一个bind（堆栈的上下文，上一个，写的顺序来看就是第一个）</span></span><br><span class="line">fn.bind(<span class="number">1</span>).bind(<span class="number">2</span>)();</span><br></pre></td></tr></table></figure></li>
+<li><p>JS中的bind的实现 from MDN</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  Yes, it does work with `new (funcA.bind(thisArg, args))`</span></span><br><span class="line"><span class="keyword">if</span> (!<span class="built_in">Function</span>.prototype.bind) (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> ArrayPrototypeSlice = <span class="built_in">Array</span>.prototype.slice;</span><br><span class="line">  <span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span>(<span class="params">otherThis</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">this</span> !== <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">      <span class="comment">// closest thing possible to the ECMAScript 5</span></span><br><span class="line">      <span class="comment">// internal IsCallable function</span></span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">&#x27;Function.prototype.bind - what is trying to be bound is not callable&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> baseArgs= ArrayPrototypeSlice.call(<span class="built_in">arguments</span>, <span class="number">1</span>),</span><br><span class="line">        baseArgsLength = baseArgs.length,</span><br><span class="line">        fToBind = <span class="built_in">this</span>,</span><br><span class="line">        fNOP    = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</span><br><span class="line">        fBound  = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">          baseArgs.length = baseArgsLength; <span class="comment">// reset to default base arguments</span></span><br><span class="line">          baseArgs.push.apply(baseArgs, <span class="built_in">arguments</span>);</span><br><span class="line">          <span class="keyword">return</span> fToBind.apply(</span><br><span class="line">                 fNOP.prototype.isPrototypeOf(<span class="built_in">this</span>) ? <span class="built_in">this</span> : otherThis, baseArgs</span><br><span class="line">          );</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.prototype) &#123;</span><br><span class="line">      <span class="comment">// Function.prototype doesn&#x27;t have a prototype property</span></span><br><span class="line">      fNOP.prototype = <span class="built_in">this</span>.prototype;</span><br><span class="line">    &#125;</span><br><span class="line">    fBound.prototype = <span class="keyword">new</span> fNOP();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> fBound;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+        </div>
+        
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="widgets">
+        
+            
+
+        
+            
+    <div class="widget">
+        <h3 class="widget-title">
+            标签
+        </h3>
+        <div class="widget-body">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/" rel="tag">Javascript</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React-js/" rel="tag">React.js</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/" rel="tag">Vue.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E8%B7%B5/" rel="tag">实践</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag">课程笔记</a><span class="tag-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+        
+            
+    <div class="widget">
+        
+        <h3 class="widget-title">标签云</h3>
+        
+        <div class="widget-body tagcloud">
+            <a href="/tags/CSS/" style="font-size: 13.25px;">CSS</a> <a href="/tags/Javascript/" style="font-size: 13.75px;">Javascript</a> <a href="/tags/React-js/" style="font-size: 13.25px;">React.js</a> <a href="/tags/Vue-js/" style="font-size: 13px;">Vue.js</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 14px;">前端</a> <a href="/tags/%E5%AE%9E%E8%B7%B5/" style="font-size: 13.25px;">实践</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">工具</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13.25px;">插件</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 13.25px;">源码</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 14px;">编程</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">设计模式</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 13px;">读书笔记</a> <a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" style="font-size: 13.5px;">课程笔记</a>
+        </div>
+    </div>
+
+
+        
+            
+    <div class="widget">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget-body">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+        
+            
+<div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+        <ul class="recent-post-list list-unstyled">
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/08/08/this%E6%8C%87%E5%90%91-%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/" class="title">this指向 作用域与闭包</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-08-08T02:13:35.000Z" itemprop="datePublished">2021-08-08</time>
+                        </p>
+                    </div>
+                </li>
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/08/07/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8BJS%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/" class="title">设计模式之JS职责链模式</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-08-07T13:59:25.000Z" itemprop="datePublished">2021-08-07</time>
+                        </p>
+                    </div>
+                </li>
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/08/07/Node.js%E5%9F%BA%E7%A1%80/" class="title">Node.js基础</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-08-07T12:14:25.000Z" itemprop="datePublished">2021-08-07</time>
+                        </p>
+                    </div>
+                </li>
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/08/07/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" class="title">函数式编程</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-08-07T10:04:23.000Z" itemprop="datePublished">2021-08-07</time>
+                        </p>
+                    </div>
+                </li>
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/07/28/Promise%E8%AF%A6%E8%A7%A3/" class="title">Promise详解</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-07-27T16:04:23.000Z" itemprop="datePublished">2021-07-28</time>
+                        </p>
+                    </div>
+                </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+        
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>
