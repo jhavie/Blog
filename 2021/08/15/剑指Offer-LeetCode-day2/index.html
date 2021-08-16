@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>剑指Offer LeetCode day2 | Hexo</title>
+    <meta name="description" content="第 2 天链表（简单）剑指 Offer 06. 从尾到头打印链表输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。 示例 1： 输入：head &#x3D; [1,3,2]输出：[2,3,1] 限制： 0 &lt;&#x3D; 链表长度 &lt;&#x3D; 10000 题解一 循环后利用js自带reverse()1234567891011121314151617181920&#x2F;** * Definition">
+<meta property="og:type" content="article">
+<meta property="og:title" content="剑指Offer LeetCode day2">
+<meta property="og:url" content="http://example.com/2021/08/15/%E5%89%91%E6%8C%87Offer-LeetCode-day2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="第 2 天链表（简单）剑指 Offer 06. 从尾到头打印链表输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。 示例 1： 输入：head &#x3D; [1,3,2]输出：[2,3,1] 限制： 0 &lt;&#x3D; 链表长度 &lt;&#x3D; 10000 题解一 循环后利用js自带reverse()1234567891011121314151617181920&#x2F;** * Definition">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/08/15/%E5%89%91%E6%8C%87Offer-LeetCode-day2/e1.png">
+<meta property="og:image" content="http://example.com/2021/08/15/%E5%89%91%E6%8C%87Offer-LeetCode-day2/e2.png">
+<meta property="article:published_time" content="2021-08-15T14:21:07.000Z">
+<meta property="article:modified_time" content="2021-08-15T16:11:13.008Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="Javascript">
+<meta property="article:tag" content="实践">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/08/15/%E5%89%91%E6%8C%87Offer-LeetCode-day2/e1.png">
+
+    
+    
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/3c6821a216040a03a1ecedc0d1aa8b75?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">Jia</h2>
+            <h3 id="title" class="hidden xl:block">Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Shanghai, China
+            </small>
+            
+        </div>
+        
+        
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">首页</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">归档</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">分类</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">标签</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">项目</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">友链</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            剑指Offer LeetCode day2
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2021/08/15/%E5%89%91%E6%8C%87Offer-LeetCode-day2/" class="article-date">
+	  <time datetime="2021-08-15T14:21:07.000Z" itemprop="datePublished">8月 15</time>
+	</a>
+</span>
+
+                
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/Javascript/" rel="tag">Javascript</a>, <a class="article-tag-none-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a>, <a class="article-tag-none-link" href="/tags/%E5%AE%9E%E8%B7%B5/" rel="tag">实践</a>, <a class="article-tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2021/08/15/%E5%89%91%E6%8C%87Offer-LeetCode-day2/#comments" class="article-comment-link">
+                        评论
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h2 id="第-2-天"><a href="#第-2-天" class="headerlink" title="第 2 天"></a>第 2 天</h2><h2 id="链表（简单）"><a href="#链表（简单）" class="headerlink" title="链表（简单）"></a>链表（简单）</h2><h3 id="剑指-Offer-06-从尾到头打印链表"><a href="#剑指-Offer-06-从尾到头打印链表" class="headerlink" title="剑指 Offer 06. 从尾到头打印链表"></a>剑指 Offer 06. 从尾到头打印链表</h3><p>输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。</p>
+<p>示例 1：</p>
+<p>输入：head = [1,3,2]<br>输出：[2,3,1]</p>
+<p>限制：</p>
+<p>0 &lt;= 链表长度 &lt;= 10000</p>
+<h3 id="题解一-循环后利用js自带reverse"><a href="#题解一-循环后利用js自带reverse" class="headerlink" title="题解一 循环后利用js自带reverse()"></a>题解一 循环后利用js自带reverse()</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * function ListNode(val) &#123;</span></span><br><span class="line"><span class="comment"> *     this.val = val;</span></span><br><span class="line"><span class="comment"> *     this.next = null;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;ListNode&#125;</span> <span class="variable">head</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number[]&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> reversePrint = <span class="function"><span class="keyword">function</span>(<span class="params">head</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> node = head;</span><br><span class="line">    <span class="keyword">const</span> resList = [];</span><br><span class="line">    <span class="keyword">while</span> (node) &#123;</span><br><span class="line">        resList.push(node.val);</span><br><span class="line">        node = node.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> resList.reverse();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="题解二-unshift"><a href="#题解二-unshift" class="headerlink" title="题解二 unshift()"></a>题解二 unshift()</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> reversePrint = <span class="function"><span class="keyword">function</span>(<span class="params">head</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> nums = [];</span><br><span class="line">    <span class="keyword">let</span> node = head;</span><br><span class="line">    <span class="keyword">while</span> (node !== <span class="literal">null</span>) &#123;</span><br><span class="line">        nums.unshift(node.val);</span><br><span class="line">        node = node.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="剑指-Offer-24-反转链表"><a href="#剑指-Offer-24-反转链表" class="headerlink" title="剑指 Offer 24. 反转链表"></a>剑指 Offer 24. 反转链表</h3><p>定义一个函数，输入一个链表的头节点，反转该链表并输出反转后链表的头节点。</p>
+<p>示例:</p>
+<p>输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL<br>输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL</p>
+<p>限制：</p>
+<p>0 &lt;= 节点个数 &lt;= 5000</p>
+<h3 id="题解一-数组暂存两次循环"><a href="#题解一-数组暂存两次循环" class="headerlink" title="题解一 数组暂存两次循环"></a>题解一 数组暂存两次循环</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * function ListNode(val) &#123;</span></span><br><span class="line"><span class="comment"> *     this.val = val;</span></span><br><span class="line"><span class="comment"> *     this.next = null;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;ListNode&#125;</span> <span class="variable">head</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;ListNode&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> reverseList = <span class="function"><span class="keyword">function</span>(<span class="params">head</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> nums = [];</span><br><span class="line">    <span class="keyword">let</span> node = head;</span><br><span class="line">    <span class="keyword">while</span> (node !== <span class="literal">null</span>) &#123;</span><br><span class="line">        nums.unshift(node);</span><br><span class="line">        node = node.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i&lt;nums.length; i++) &#123;</span><br><span class="line">        nums[i].next = nums[i+<span class="number">1</span>] || <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[<span class="number">0</span>] || head;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="题解二-双头指针"><a href="#题解二-双头指针" class="headerlink" title="题解二 双头指针"></a>题解二 双头指针</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> reverseList = <span class="function"><span class="keyword">function</span>(<span class="params">head</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> cur = head;</span><br><span class="line">    <span class="keyword">let</span> pre = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">while</span> (cur) &#123;</span><br><span class="line">        tmp = cur.next;</span><br><span class="line">        cur.next = pre;</span><br><span class="line">        pre = cur;</span><br><span class="line">        cur = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pre;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="剑指-Offer-35-复杂链表的复制"><a href="#剑指-Offer-35-复杂链表的复制" class="headerlink" title="剑指 Offer 35. 复杂链表的复制"></a>剑指 Offer 35. 复杂链表的复制</h3><p>请实现 copyRandomList 函数，复制一个复杂链表。在复杂链表中，每个节点除了有一个 next 指针指向下一个节点，还有一个 random 指针指向链表中的任意节点或者 null。</p>
+<p>实例1:<br><img src="e1.png" alt="example1"><br>输入：head = [[7,null],[13,0],[11,4],[10,2],[1,0]]<br>输出：[[7,null],[13,0],[11,4],[10,2],[1,0]]</p>
+<p>实例2:<br><img src="e2.png" alt="example2"><br>输入：head = [[1,1],[2,1]]<br>输出：[[1,1],[2,1]]</p>
+<p>提示：</p>
+<p>-10000 &lt;= Node.val &lt;= 10000<br>Node.random 为空（null）或指向链表中的节点。<br>节点数目不超过 1000 。</p>
+<h3 id="题解一"><a href="#题解一" class="headerlink" title="题解一"></a>题解一</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * // Definition for a Node.</span></span><br><span class="line"><span class="comment"> * function Node(val, next, random) &#123;</span></span><br><span class="line"><span class="comment"> *    this.val = val;</span></span><br><span class="line"><span class="comment"> *    this.next = next;</span></span><br><span class="line"><span class="comment"> *    this.random = random;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Node&#125;</span> <span class="variable">head</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;Node&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> copyRandomList = <span class="function"><span class="keyword">function</span>(<span class="params">head</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!head) <span class="keyword">return</span> head;</span><br><span class="line">    <span class="keyword">let</span> node = head;</span><br><span class="line">    <span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 复制节点，将新节点放入map中</span></span><br><span class="line">    <span class="keyword">while</span>(node)&#123;</span><br><span class="line">        map.set(node, <span class="keyword">new</span> Node(node.val));</span><br><span class="line">        node = node.next;</span><br><span class="line">    &#125;</span><br><span class="line">    node = head;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对map里的新节点进行遍历操作</span></span><br><span class="line">    <span class="keyword">while</span>(node)&#123;</span><br><span class="line">        map.get(node).next = map.get(node.next) === <span class="literal">undefined</span> ? <span class="literal">null</span> : map.get(node.next);</span><br><span class="line">        map.get(node).random = map.get(node.random);</span><br><span class="line">        node = node.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> map.get(head);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+        </div>
+        
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="widgets">
+        
+            
+
+        
+            
+    <div class="widget">
+        <h3 class="widget-title">
+            标签
+        </h3>
+        <div class="widget-body">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/" rel="tag">Javascript</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React-js/" rel="tag">React.js</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/" rel="tag">Vue.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E8%B7%B5/" rel="tag">实践</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag">课程笔记</a><span class="tag-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+        
+            
+    <div class="widget">
+        
+        <h3 class="widget-title">标签云</h3>
+        
+        <div class="widget-body tagcloud">
+            <a href="/tags/CSS/" style="font-size: 13.2px;">CSS</a> <a href="/tags/Javascript/" style="font-size: 13.8px;">Javascript</a> <a href="/tags/React-js/" style="font-size: 13.2px;">React.js</a> <a href="/tags/Vue-js/" style="font-size: 13px;">Vue.js</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 14px;">前端</a> <a href="/tags/%E5%AE%9E%E8%B7%B5/" style="font-size: 13.4px;">实践</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">工具</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13.2px;">插件</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 13.2px;">源码</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 14px;">编程</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13px;">设计模式</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 13px;">读书笔记</a> <a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" style="font-size: 13.6px;">课程笔记</a>
+        </div>
+    </div>
+
+
+        
+            
+    <div class="widget">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget-body">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+        
+            
+<div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+        <ul class="recent-post-list list-unstyled">
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/08/16/%E5%89%91%E6%8C%87Offer-LeetCode-day3/" class="title">剑指Offer LeetCode day3</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-08-16T14:04:51.000Z" itemprop="datePublished">2021-08-16</time>
+                        </p>
+                    </div>
+                </li>
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/08/15/%E5%89%91%E6%8C%87Offer-LeetCode-day2/" class="title">剑指Offer LeetCode day2</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-08-15T14:21:07.000Z" itemprop="datePublished">2021-08-15</time>
+                        </p>
+                    </div>
+                </li>
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/08/14/%E5%89%91%E6%8C%87Offer-LeetCode-day1/" class="title">剑指Offer LeetCode day1</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-08-14T12:21:07.000Z" itemprop="datePublished">2021-08-14</time>
+                        </p>
+                    </div>
+                </li>
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/08/08/this%E6%8C%87%E5%90%91-%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%97%AD%E5%8C%85/" class="title">this指向 作用域与闭包</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-08-08T02:13:35.000Z" itemprop="datePublished">2021-08-08</time>
+                        </p>
+                    </div>
+                </li>
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/08/07/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8BJS%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F/" class="title">设计模式之JS职责链模式</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-08-07T13:59:25.000Z" itemprop="datePublished">2021-08-07</time>
+                        </p>
+                    </div>
+                </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+        
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>
