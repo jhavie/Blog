@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <title>JSON表单的方案设计与选择 | Hexo</title>
+    <meta name="description" content="JSON表单的方案设计设计本次设计方案的技术框架为vue，采用的组件库为element-ui需求背景：项目中大量的录入表单，需要前端开发人员进行维护，且经常变更，表单过多导致前端代码有些冗余，且维护困难。方案设计如下：  所有组件根据JSX动态生成优点：表单灵活，可配置项充分缺点：可配置项过多，需要定义和查询文档，配置会出现比较复杂的情况 12345678910111213141516171819">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSON表单的方案设计与选择">
+<meta property="og:url" content="http://example.com/2021/10/10/JSON%E8%A1%A8%E5%8D%95%E7%9A%84%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E4%B8%8E%E9%80%89%E6%8B%A9/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JSON表单的方案设计设计本次设计方案的技术框架为vue，采用的组件库为element-ui需求背景：项目中大量的录入表单，需要前端开发人员进行维护，且经常变更，表单过多导致前端代码有些冗余，且维护困难。方案设计如下：  所有组件根据JSX动态生成优点：表单灵活，可配置项充分缺点：可配置项过多，需要定义和查询文档，配置会出现比较复杂的情况 12345678910111213141516171819">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/10/10/JSON%E8%A1%A8%E5%8D%95%E7%9A%84%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E4%B8%8E%E9%80%89%E6%8B%A9/json-form.png">
+<meta property="article:published_time" content="2021-10-10T14:55:45.000Z">
+<meta property="article:modified_time" content="2021-10-11T07:58:54.042Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/10/10/JSON%E8%A1%A8%E5%8D%95%E7%9A%84%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E4%B8%8E%E9%80%89%E6%8B%A9/json-form.png">
+
+    
+    
+
+    
+<link rel="stylesheet" href="/css/common.min.css">
+
+
+
+    
+    
+    
+    
+        <link href="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css" rel="stylesheet">
+    
+    
+    
+<link rel="stylesheet" href="/css/iconfont.min.css">
+
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    <body>
+        <header class="header header-fixture">
+    <div class="profile-search-wrap flex sm:block">
+        
+        
+        <div class="profile sm:text-center md:px-1 lg:px-3 sm:pb-4 sm:pt-6">
+            <a id="avatar" role="link" href="" class="inline-block lg:w-16 lg:h-16 w-8 h-8 m-2" target="_blank" rel="noopener" rel="noreferrer" >
+                <img src="https://www.gravatar.com/avatar/3c6821a216040a03a1ecedc0d1aa8b75?s=128" class="rounded-full" alt="avatar">
+            </a>
+            <h2 id="name" class="hidden lg:block">Jia</h2>
+            <h3 id="title" class="hidden xl:block">Coder</h3>
+            
+            <small id="location" class="hidden lg:block">
+                <i class="iconfont icon-map-icon"></i>
+                Shanghai, China
+            </small>
+            
+        </div>
+        
+        
+
+        <button name="menu toogle button" id="menu-toggle-btn" class="block sm:hidden p-3" role="button" aria-expanded="false">
+            <i class="iconfont icon-hamburger"></i>
+        </button>
+    </div>
+    <nav id="menu-nav" class="hidden sm:flex flex-col">
+        
+        
+            <div class="menu-item menu-home" role="menuitem">
+                <a href="/.">
+                    <i class="iconfont icon-home" aria-hidden="true"></i>
+                    <span class="menu-title">首页</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-archives" role="menuitem">
+                <a href="/archives">
+                    <i class="iconfont icon-archive" aria-hidden="true"></i>
+                    <span class="menu-title">归档</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-categories" role="menuitem">
+                <a href="/categories">
+                    <i class="iconfont icon-folder" aria-hidden="true"></i>
+                    <span class="menu-title">分类</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-tags" role="menuitem">
+                <a href="/tags">
+                    <i class="iconfont icon-tag" aria-hidden="true"></i>
+                    <span class="menu-title">标签</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-repository" role="menuitem">
+                <a href="/repository">
+                    <i class="iconfont icon-project" aria-hidden="true"></i>
+                    <span class="menu-title">项目</span>
+                </a>
+            </div>
+        
+        
+            <div class="menu-item menu-links" role="menuitem">
+                <a href="/links">
+                    <i class="iconfont icon-friend" aria-hidden="true"></i>
+                    <span class="menu-title">友链</span>
+                </a>
+            </div>
+        
+        
+<div class="social-links flex sm:flex-col lg:hidden mt-5">
+    
+        <span class="social-item text-center">
+            <a href="/atom.xml">
+                <i class="iconfont social-icon icon-rss"></i>
+                <span class="menu-title hidden lg:inline">menu.rss</span>
+            </a>
+        </span>
+    
+</div>
+
+
+    </nav>
+</header>
+
+        <section class="main-section">
+            
+    <main class="flex-1 px-4 py-14 md:px-5 lg:px-8 lg:py-4 relative min-h-screen">
+    
+
+    <article class="content article article-archives article-type-list" itemscope="">
+        <header class="article-header">
+            
+    
+        <h1 class="article-title text-lg" itemprop="name">
+            JSON表单的方案设计与选择
+        </h1>
+    
+
+
+
+            <p class="article-meta mb-3 text-xs">
+                <span class="article-date">
+    <i class="iconfont icon-calendar-check"></i>
+	<a href="/2021/10/10/JSON%E8%A1%A8%E5%8D%95%E7%9A%84%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E4%B8%8E%E9%80%89%E6%8B%A9/" class="article-date">
+	  <time datetime="2021-10-10T14:55:45.000Z" itemprop="datePublished">10月 10</time>
+	</a>
+</span>
+
+                
+
+                
+    <span class="article-tags">
+    <i class="iconfont icon-tag"></i>
+    <a class="article-tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+  </span>
+
+
+                <span class="_partial/post-comment"><i class="icon icon-comment"></i>
+                    <a href="/2021/10/10/JSON%E8%A1%A8%E5%8D%95%E7%9A%84%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E4%B8%8E%E9%80%89%E6%8B%A9/#comments" class="article-comment-link">
+                        评论
+                    </a>
+                </span>
+                
+
+            </p>
+        </header>
+        <div class="marked-body article-body">
+            <h2 id="JSON表单的方案设计"><a href="#JSON表单的方案设计" class="headerlink" title="JSON表单的方案设计"></a>JSON表单的方案设计</h2><h3 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h3><p>本次设计方案的技术框架为vue，采用的组件库为element-ui<br>需求背景：项目中大量的录入表单，需要前端开发人员进行维护，且经常变更，表单过多导致前端代码有些冗余，且维护困难。<br>方案设计如下：</p>
+<ol>
+<li><p>所有组件根据JSX动态生成<br>优点：表单灵活，可配置项充分<br>缺点：可配置项过多，需要定义和查询文档，配置会出现比较复杂的情况</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        formType: <span class="string">&#x27;input&#x27;</span>,</span><br><span class="line">        label: <span class="string">&#x27;商品名称&#x27;</span>,</span><br><span class="line">        value: <span class="string">&#x27;测试商品&#x27;</span>,</span><br><span class="line">        render: <span class="function">(<span class="params">_c</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> _c(<span class="string">&#x27;input&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br><span class="line"><span class="comment">// 随着该表单的表单项越来越来多以及需求的变动，该表单会越来越复杂。</span></span><br><span class="line"><span class="comment">// 考虑到布局以及兼容element-ui原生的一些prop，以及render中组件嵌套（如radioGroup, Select等组件），表单json会变成为如下</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        layout: <span class="string">&#x27;inline&#x27;</span>,</span><br><span class="line">        span: <span class="string">&#x27;12&#x27;</span>,</span><br><span class="line">        formType: <span class="string">&#x27;input&#x27;</span>,</span><br><span class="line">        label: <span class="string">&#x27;商品名称&#x27;</span>,</span><br><span class="line">        value: <span class="string">&#x27;测试商品&#x27;</span>,</span><br><span class="line">        elProps: &#123;</span><br><span class="line">            size: <span class="string">&#x27;small&#x27;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        props: &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        validate: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        setValue: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        getValue: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        formatter: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        render: <span class="function">(<span class="params">_c</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> _c(<span class="string">&#x27;input&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>可以看到随着组件的需求增加，还有可能出现一些省市联动的组件情况，会使得render渲染子组件时变得异常复杂。<br>我们优化一下这个方案，让部分的代码以模板形式，并且试着减少一些prop，明确配置项。</p>
+</li>
+<li><p>使用模板化的方式，部分配置项抽出来变成固定的。<br>优点：复杂组件可以单独写组件，配置项减少，增加配置的可读性<br>缺点：不够灵活，一旦需求变动，会需要改动一些源码<br>可以看到一旦配置项够灵活，支持的够多，就会导致配置项非常多，但是配置项减少，意味着一些代码要在源码里写死，本质上其实是一个颗粒度的问题，现在我们把颗粒度放宽考虑一下该方案的可行性。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 试着简化该json</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        span: <span class="string">&#x27;12&#x27;</span>,</span><br><span class="line">        formType: <span class="string">&#x27;input&#x27;</span>,</span><br><span class="line">        label: <span class="string">&#x27;商品名称&#x27;</span>,</span><br><span class="line">        value: <span class="string">&#x27;测试商品&#x27;</span>,</span><br><span class="line">        props: &#123;</span><br><span class="line">            ...elProps, <span class="comment">// 此处将表单的配置与element-ui的配置做合并</span></span><br><span class="line">            ...ctiProps, <span class="comment">// 自定的配置需要覆盖掉element-ui的配置</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>可以看到，我们的配置项简化了很多，假设有一些自定的组件，我们替换formType然后再映射即可。<br>至于getValue, setValue, validate, formatter等等，我们放在组件中封装好执行。</p>
+</li>
+</ol>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>根据以上方案，我们适当的简化配置，把一些操作避免暴露给用户，一些复杂的组件单独写组件。<br>我们来实现这块JSON的解析与渲染。</p>
+<ol>
+<li>第一点还是大体上的json表单的目录结构<br><img src="json-form.png" alt="json表单"><br>business: 存放业务相关的代码<br>comps: 自定义组件，复合组件，高阶复杂组件<br>config: 一些配置文件<br>modules: 用于做各个组件的配置文件如input,select等<br>sample: 使用范例<br>utils: 通用的工具方法<br>validater: 验证器<br>base: 不同组件的模板选择<br>customize-box: 带一些默认按钮如删除，确定，重置等的默认表单<br>customize-search: 带搜索按钮的默认表单<br>customize: base的上层容器，在这层需要做一些getData, setData, clearData, resetData等操作<br>模板部分如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; src&#x2F;base.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;el-form </span><br><span class="line">        :model&#x3D;&quot;formData&quot;</span><br><span class="line">        class&#x3D;&quot;customize-form&quot;</span><br><span class="line">        v-bind&#x3D;&quot;getProps(&#39;formProps&#39;, formProps)&quot;</span><br><span class="line">        ref&#x3D;&quot;formNode&quot;</span><br><span class="line">    &gt;</span><br><span class="line">        &lt;template v-for&#x3D;&quot;(item, idx) in configs&quot;&gt;</span><br><span class="line">            &lt;el-form-item</span><br><span class="line">                v-else</span><br><span class="line">                :key&#x3D;&quot;idx&quot;</span><br><span class="line">                v-bind&#x3D;&quot;getProps(&#39;formItemProps&#39;, item.itemProps)&quot;</span><br><span class="line">                :prop&#x3D;&quot;item.name || &#96;$&#123;idx&#125;&#96;&quot;</span><br><span class="line">                class&#x3D;&quot;customize-form-edit&quot;</span><br><span class="line">            &gt;</span><br><span class="line">                &lt;customize-base</span><br><span class="line">                    v-else</span><br><span class="line">                    v-model&#x3D;&quot;formData[idx]&quot;</span><br><span class="line">                    :config&#x3D;&quot;item&quot;</span><br><span class="line">                    :prop&#x3D;&quot;item.name || String(idx)&quot;</span><br><span class="line">                &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;el-form-item&gt;</span><br><span class="line">        &lt;&#x2F;template&gt;</span><br><span class="line">    &lt;&#x2F;el-form&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br></pre></td></tr></table></figure>
+因为比如input和select需要不同的配置项，如select有option的配置项，所以配置如下<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/modules/input.js</span></span><br><span class="line"><span class="keyword">import</span> _merge <span class="keyword">from</span> <span class="string">&#x27;lodash/merge&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (&#123; label, value, props = &#123;&#125;, ...mores &#125;) =&gt; (&#123;</span><br><span class="line">    validate: <span class="function">(<span class="params">data</span>) =&gt;</span> data === <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    getText: <span class="function"><span class="params">data</span> =&gt;</span> data,</span><br><span class="line">    ...mores,</span><br><span class="line">    props: _merge(&#123;&#125;, props),</span><br><span class="line">    formType: <span class="string">&#x27;input&#x27;</span>,</span><br><span class="line">    <span class="keyword">default</span>: value || <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    itemProps: &#123;</span><br><span class="line">        label,</span><br><span class="line">        style: &#123;</span><br><span class="line">            width: <span class="string">&#x27;50%&#x27;</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// src/modules/select.js</span></span><br><span class="line"><span class="keyword">import</span> _merge <span class="keyword">from</span> <span class="string">&#x27;lodash/merge&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> _get <span class="keyword">from</span> <span class="string">&#x27;lodash/get&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (&#123; props = &#123;&#125;, value, options, label, ...mores &#125;) =&gt; (&#123;</span><br><span class="line">    ...mores,</span><br><span class="line">    props: _merge(&#123;</span><br><span class="line">        clearable: <span class="literal">true</span>,</span><br><span class="line">    &#125;, props),</span><br><span class="line">    formType: <span class="string">&#x27;select&#x27;</span>,</span><br><span class="line">    <span class="keyword">default</span>: value || <span class="literal">null</span>,</span><br><span class="line">    getText: <span class="function">(<span class="params">data, config</span>) =&gt;</span> _get(config, <span class="string">&#x27;options&#x27;</span>, []).find(<span class="function"><span class="params">item</span> =&gt;</span> item.value === data).label,</span><br><span class="line">    itemProps: &#123;</span><br><span class="line">        label,</span><br><span class="line">        style: &#123;</span><br><span class="line">            width: <span class="string">&#x27;50%&#x27;</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    options,</span><br><span class="line">    validate: <span class="function">(<span class="params">data</span>) =&gt;</span> data === <span class="string">&#x27;&#x27;</span> || data === <span class="literal">null</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; src&#x2F;customize.vue 这里实现了大量通用方法减少了一些配置项</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;el-form :model&#x3D;&quot;formData&quot; class&#x3D;&quot;customize-form&quot; v-bind&#x3D;&quot;getProps(&#39;formProps&#39;, formProps)&quot; ref&#x3D;&quot;formNode&quot;&gt;</span><br><span class="line">        &lt;slot name&#x3D;&quot;top&quot;&gt;&lt;&#x2F;slot&gt;</span><br><span class="line">        &lt;template v-for&#x3D;&quot;(item, idx) in configs&quot;&gt;</span><br><span class="line">            &lt;div class&#x3D;&quot;other-item&quot; :style&#x3D;&quot;otherStyle&quot; v-if&#x3D;&quot;item.beforeSlot&quot;&gt;</span><br><span class="line">                &lt;slot :name&#x3D;&quot;item.beforeSlot&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;div&gt;</span><br><span class="line">            &lt;el-form-item</span><br><span class="line">                v-if&#x3D;&quot;type &#x3D;&#x3D;&#x3D; &#39;review&#39;&quot;</span><br><span class="line">                :key&#x3D;&quot;idx&quot;</span><br><span class="line">                v-bind&#x3D;&quot;getProps(&#39;formItemProps&#39;, item.itemProps)&quot;</span><br><span class="line">                :class&#x3D;&quot;&#96;customize-form-review customize-form-$&#123;item.formType&#125;&#96;&quot;</span><br><span class="line">                :prop&#x3D;&quot;item.name || &#96;$&#123;idx&#125;&#96;&quot;</span><br><span class="line">            &gt;</span><br><span class="line">                &lt;customize-show :config&#x3D;&quot;item&quot; v-model&#x3D;&quot;formData[idx]&quot; :prop&#x3D;&quot;item.name || String(idx)&quot;&#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;el-form-item&gt;</span><br><span class="line">            &lt;el-form-item</span><br><span class="line">                v-else</span><br><span class="line">                :key&#x3D;&quot;idx&quot;</span><br><span class="line">                v-bind&#x3D;&quot;getProps(&#39;formItemProps&#39;, item.itemProps)&quot;</span><br><span class="line">                :prop&#x3D;&quot;item.name || &#96;$&#123;idx&#125;&#96;&quot;</span><br><span class="line">                class&#x3D;&quot;customize-form-edit&quot;</span><br><span class="line">            &gt;</span><br><span class="line">                &lt;customize-order</span><br><span class="line">                    v-if&#x3D;&quot;item.formType &#x3D;&#x3D;&#x3D; &#39;order&#39;&quot;</span><br><span class="line">                    v-model&#x3D;&quot;formData[idx]&quot;</span><br><span class="line">                    :config&#x3D;&quot;item&quot;</span><br><span class="line">                    :prop&#x3D;&quot;item.name || String(idx)&quot;</span><br><span class="line">                &#x2F;&gt;</span><br><span class="line">                &lt;customize-base v-else v-model&#x3D;&quot;formData[idx]&quot; :config&#x3D;&quot;item&quot; :prop&#x3D;&quot;item.name || String(idx)&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;el-form-item&gt;</span><br><span class="line">            &lt;div class&#x3D;&quot;other-item&quot; :style&#x3D;&quot;otherStyle&quot; v-if&#x3D;&quot;item.afterSlot&quot;&gt;</span><br><span class="line">                &lt;slot :name&#x3D;&quot;item.afterSlot&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;div&gt;</span><br><span class="line">        &lt;&#x2F;template&gt;</span><br><span class="line">        &lt;slot name&#x3D;&quot;bottom&quot;&gt;&lt;&#x2F;slot&gt;</span><br><span class="line">    &lt;&#x2F;el-form&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">    name: &#39;CustomizeForm&#39;,</span><br><span class="line">    props: &#123;</span><br><span class="line">        data: &#123;</span><br><span class="line">            type: Array,</span><br><span class="line">            required: true,</span><br><span class="line">            default: () &#x3D;&gt; [],</span><br><span class="line">        &#125;,</span><br><span class="line">        type: &#123;</span><br><span class="line">            &#x2F;&#x2F; edit: 编辑模式，review：显示模式</span><br><span class="line">            type: String,</span><br><span class="line">            default: () &#x3D;&gt; &#39;edit&#39;,</span><br><span class="line">        &#125;,</span><br><span class="line">        keyName: &#123;</span><br><span class="line">            &#x2F;&#x2F; 控制数据键名， 默认为default表示顺序位数字， 否则根据当前key名取值</span><br><span class="line">            type: String,</span><br><span class="line">            default: () &#x3D;&gt; &#39;default&#39;,</span><br><span class="line">        &#125;,</span><br><span class="line">        formProps: &#123;</span><br><span class="line">            type: Object,</span><br><span class="line">            default: () &#x3D;&gt; (&#123;&#125;),</span><br><span class="line">        &#125;,</span><br><span class="line">        isFault: &#123;</span><br><span class="line">            &#x2F;&#x2F; 是否断层, true则开启断层, false关闭断层, 关闭后对data监听且动态计算配置, 影响性能, 默认开启</span><br><span class="line">            type: Boolean,</span><br><span class="line">            default: true,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    created() &#123;</span><br><span class="line">        &#x2F;&#x2F; 控制是否允许校验</span><br><span class="line">        this.isCanValidate &#x3D; true;</span><br><span class="line">        this.changeListenList &#x3D; this.change2data();</span><br><span class="line">        this.preFormData &#x3D; _cloneDeep(this.formData);</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">        this.customizeRoot &#x3D; true;</span><br><span class="line">        if (!this.formProps || !this.formData) &#123;</span><br><span class="line">            console.log(&#39;customize-form::无效formProps或formData&#39;, this.formProps, this.formData, this.data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    beforeCreate() &#123;</span><br><span class="line">        &#x2F;&#x2F; 用于缓存操作数据， 不用于渲染</span><br><span class="line">        this.contro &#x3D; &#123;</span><br><span class="line">            &#x2F;&#x2F; 缓存初始信息，用于重置功能</span><br><span class="line">            initData: &#123;&#125;,</span><br><span class="line">            &#x2F;&#x2F; 缓存全空数据</span><br><span class="line">            spaceData: &#123;&#125;,</span><br><span class="line">            &#x2F;&#x2F; 用户缓存指定节点的数据</span><br><span class="line">            prevData: &#123;&#125;,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    components: &#123;</span><br><span class="line">        customizeOrder,</span><br><span class="line">        customizeBase,</span><br><span class="line">        customizeShow,</span><br><span class="line">    &#125;,</span><br><span class="line">    provide() &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            formNode: this,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">        change2data() &#123;</span><br><span class="line">            return Object.keys(this.$listeners)</span><br><span class="line">                .filter(name &#x3D;&gt; name.includes(&#39;change:&#39;))</span><br><span class="line">                .map(name &#x3D;&gt; &#123;</span><br><span class="line">                    const keyName &#x3D; name.split(&#39;:&#39;)[1];</span><br><span class="line">                    const idx &#x3D; this.data.findIndex(item &#x3D;&gt; item.keyName &#x3D;&#x3D;&#x3D; keyName);</span><br><span class="line">                    return &#123; key: keyName, name, idx &#125;;</span><br><span class="line">                &#125;);</span><br><span class="line">        &#125;,</span><br><span class="line">        isDataUpdate() &#123;</span><br><span class="line">            &#x2F;&#x2F; 判断数据是否有变动</span><br><span class="line">            const length &#x3D; this.data.length;</span><br><span class="line">            &#x2F;* 价格日历特殊处理</span><br><span class="line">            const custom &#x3D; &#123;&#125;;</span><br><span class="line">            const idx &#x3D; this.data.findIndex((item) &#x3D;&gt; item.formType &#x3D;&#x3D;&#x3D; &#39;priceCalendar&#39;);</span><br><span class="line">            if (idx &gt; -1) custom[idx] &#x3D; [];</span><br><span class="line">            *&#x2F;</span><br><span class="line">            const initData &#x3D; Array.from(&#123; ...this.contro.initData, length &#125;);</span><br><span class="line">            const currData &#x3D; Array.from(&#123; ..._cloneDeep(this.formData), length &#125;);</span><br><span class="line">            return !_isEqual(initData, currData);</span><br><span class="line">        &#125;,</span><br><span class="line">        getData(configs &#x3D; this.configs, formData &#x3D; this.formData, keyName &#x3D; this.keyName) &#123;</span><br><span class="line">            &#x2F;&#x2F; 返回表单数据</span><br><span class="line">            return configs.reduce((ans, item, idx) &#x3D;&gt; &#123;</span><br><span class="line">                const key &#x3D; keyName &#x3D;&#x3D;&#x3D; &#39;default&#39; ? idx : item[keyName];</span><br><span class="line">                &#x2F;&#x2F;const key &#x3D; item.keyName || idx;</span><br><span class="line">                if (item.formType &#x3D;&#x3D;&#x3D; &#39;order&#39; &amp;&amp; item.btns.length &#x3D;&#x3D;&#x3D; 0) &#123;</span><br><span class="line">                    &#x2F;&#x2F; order类型且无按钮返回数组第一项</span><br><span class="line">                    ans[key] &#x3D; formData[idx][0];</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    ans[key] &#x3D; formData[idx];</span><br><span class="line">                &#125;</span><br><span class="line">                return ans;</span><br><span class="line">            &#125;, &#123;&#125;);</span><br><span class="line">        &#125;,</span><br><span class="line">        getFormData(type &#x3D; &#39;default&#39;) &#123;</span><br><span class="line">            &#x2F;&#x2F; 返回表单渲染数据</span><br><span class="line">            if (type &#x3D;&#x3D;&#x3D; &#39;default&#39;) &#123;</span><br><span class="line">                return _cloneDeep(this.formData);</span><br><span class="line">            &#125;</span><br><span class="line">            return _cloneDeep(this.contro[type]);</span><br><span class="line">        &#125;,</span><br><span class="line">        setData(data) &#123;</span><br><span class="line">            this.formData &#x3D; data;</span><br><span class="line">        &#125;,</span><br><span class="line">        setDataList(dataList, data &#x3D; this.getFormData) &#123;</span><br><span class="line">            &#x2F;&#x2F; 批量设置数据值, dataList为&#123; key, value &#125;的集合</span><br><span class="line">            dataList.forEach((&#123; key, value &#125;) &#x3D;&gt; &#123;</span><br><span class="line">                this.setDataOne(key, value, data);</span><br><span class="line">            &#125;);</span><br><span class="line">            this.setData(data);</span><br><span class="line">        &#125;,</span><br><span class="line">        setDataOne(key, value, data &#x3D; this.formData) &#123;</span><br><span class="line">            &#x2F;&#x2F; 设置单个数据值, key为下标或keyName</span><br><span class="line">            if (typeof key &#x3D;&#x3D;&#x3D; &#39;number&#39;) &#123;</span><br><span class="line">                if (key &gt;&#x3D; this.configs.length) return false;</span><br><span class="line">                data[key] &#x3D; value;</span><br><span class="line">            &#125; else if (typeof key &#x3D;&#x3D;&#x3D; &#39;string&#39;) &#123;</span><br><span class="line">                const index &#x3D; this.configs.findIndex(item &#x3D;&gt; item.keyName &#x3D;&#x3D;&#x3D; key);</span><br><span class="line">                if (index &#x3D;&#x3D;&#x3D; -1) return false;</span><br><span class="line">                this.setDataOne(index, value);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            return data;</span><br><span class="line">        &#125;,</span><br><span class="line">        saveData() &#123;</span><br><span class="line">            &#x2F;&#x2F; 保存当前数据</span><br><span class="line">            this.contro.prevData &#x3D; _cloneDeep(this.formData);</span><br><span class="line">        &#125;,</span><br><span class="line">        resetData() &#123;</span><br><span class="line">            &#x2F;&#x2F; 重置数据</span><br><span class="line">            this.formData &#x3D; _cloneDeep(this.contro.spaceData);</span><br><span class="line">        &#125;,</span><br><span class="line">        clearData(key, bufferData &#x3D; _cloneDeep(this.formData), deep &#x3D; 0) &#123;</span><br><span class="line">            if (typeof key &#x3D;&#x3D;&#x3D; &#39;number&#39;) &#123;</span><br><span class="line">                bufferData[key] &#x3D; _cloneDeep(this.contro.spaceData[key]);</span><br><span class="line">            &#125; else if (typeof key &#x3D;&#x3D;&#x3D; &#39;string&#39;) &#123;</span><br><span class="line">                const index &#x3D; this.data.findIndex(item &#x3D;&gt; item.keyName &#x3D;&#x3D;&#x3D; key);</span><br><span class="line">                if (index &gt; -1) bufferData[index] &#x3D; _cloneDeep(this.contro.spaceData[index]);</span><br><span class="line">            &#125; else if (Array.isArray(key)) &#123;</span><br><span class="line">                key.forEach(k &#x3D;&gt; this.clearData(k, bufferData, deep + 1));</span><br><span class="line">            &#125;</span><br><span class="line">            !deep &amp;&amp; (this.formData &#x3D; bufferData);</span><br><span class="line">        &#125;,</span><br><span class="line">        lastData() &#123;</span><br><span class="line">            &#x2F;&#x2F; 恢复数据</span><br><span class="line">            this.formData &#x3D; _cloneDeep(this.contro.prevData);</span><br><span class="line">        &#125;,</span><br><span class="line">        getConfig(config) &#123;</span><br><span class="line">            &#x2F;&#x2F; 返回对应formType的配置信息</span><br><span class="line">            const setting &#x3D; getConfig(config);</span><br><span class="line">            return setting;</span><br><span class="line">        &#125;,</span><br><span class="line">        getProps(type, props &#x3D; &#123;&#125;) &#123;</span><br><span class="line">            &#x2F;&#x2F; 传入props与默认props合并</span><br><span class="line">            return _merge(&#123;&#125;, fromConfig[type] || &#123;&#125;, props || &#123;&#125;);</span><br><span class="line">        &#125;,</span><br><span class="line">        validate(callback &#x3D; functor) &#123;</span><br><span class="line">            &#x2F;&#x2F; 表单验证</span><br><span class="line">            this.$refs.formNode.validate(callback);</span><br><span class="line">        &#125;,</span><br><span class="line">        validateField(props, callback &#x3D; functor) &#123;</span><br><span class="line">            &#x2F;&#x2F; 指定项验证</span><br><span class="line">            if (!this.$refs.formNode) return;</span><br><span class="line">            this.$refs.formNode.validateField(props, callback);</span><br><span class="line">        &#125;,</span><br><span class="line">        clearValidate(props, callback &#x3D; functor) &#123;</span><br><span class="line">            &#x2F;&#x2F; 指定项情况验证, 传空则全部清空验证</span><br><span class="line">            if (!this.$refs.formNode) return;</span><br><span class="line">            this.$refs.formNode.clearValidate(props, callback);</span><br><span class="line">        &#125;,</span><br><span class="line">        setInitData(idx, data) &#123;</span><br><span class="line">            &#x2F;&#x2F; 用于给初始值对象赋值，用于组件数据延时获取后初始值丢失问题</span><br><span class="line">            if (idx &#x3D;&#x3D;&#x3D; -1) &#123;</span><br><span class="line">                &#x2F;&#x2F; 全量更新</span><br><span class="line">                this.contro.initData &#x3D; _cloneDeep(this.formData);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                &#x2F;&#x2F; 单位赋值</span><br><span class="line">                this.contro.initData[idx] &#x3D; _cloneDeep(data);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        calcConfig(data &#x3D; this.data) &#123;</span><br><span class="line">            return data.reduce(</span><br><span class="line">                (ans, item, idx) &#x3D;&gt; &#123;</span><br><span class="line">                    const config &#x3D; this.getConfig(&#123; ...item, value: false &#125;);</span><br><span class="line">                    this.contro.spaceData[idx] &#x3D; _cloneDeep(config.default);</span><br><span class="line">                    ans.formData[idx] &#x3D; _cloneDeep(item.value || config.default);</span><br><span class="line">                    this.contro.initData[idx] &#x3D; _cloneDeep(ans.formData[idx]);</span><br><span class="line">                    this.contro.prevData[idx] &#x3D; _cloneDeep(ans.formData[idx]);</span><br><span class="line">                    ans.configs.push(config);</span><br><span class="line">                    return ans;</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                    &#x2F;&#x2F; 表单信息</span><br><span class="line">                    formData: &#123;&#125;,</span><br><span class="line">                    &#x2F;&#x2F; 根据formType生成配置信息的集合</span><br><span class="line">                    configs: [],</span><br><span class="line">                &#125;,</span><br><span class="line">            );</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    watch: &#123;</span><br><span class="line">        formData: &#123;</span><br><span class="line">            handler(newVal, oldVal) &#123;</span><br><span class="line">                const data &#x3D; this.getData();</span><br><span class="line">                if (this.$listeners.change) this.$emit(&#39;change&#39;, data);</span><br><span class="line">                this.changeListenList.forEach((&#123; idx, key, name &#125;) &#x3D;&gt; &#123;</span><br><span class="line">                    if (!_isEqual(newVal[idx], this.preFormData[idx])) &#123;</span><br><span class="line">                        this.$emit(name, _cloneDeep(data[idx] || data[this.data[idx].keyName]));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">                this.preFormData &#x3D; _cloneDeep(newVal);</span><br><span class="line">            &#125;,</span><br><span class="line">            deep: true,</span><br><span class="line">        &#125;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            handler(newVal) &#123;</span><br><span class="line">                if (this.isFault) return;</span><br><span class="line">                const &#123; formData, configs &#125; &#x3D; this.calcConfig(newVal);</span><br><span class="line">                this.formData &#x3D; formData;</span><br><span class="line">                this.configs &#x3D; configs;</span><br><span class="line">            &#125;,</span><br><span class="line">            deep: true,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    data() &#123;</span><br><span class="line">        return this.calcConfig();</span><br><span class="line">    &#125;,</span><br><span class="line">    computed: &#123;</span><br><span class="line">        otherStyle() &#123;</span><br><span class="line">            const style &#x3D; &#123;&#125;;</span><br><span class="line">            if (this.formProps &amp;&amp; this.formProps[&#39;label-width&#39;]) &#123;</span><br><span class="line">                style[&#39;margin-left&#39;] &#x3D; this.formProps[&#39;label-width&#39;];</span><br><span class="line">            &#125;</span><br><span class="line">            return style;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+json表单的主要逻辑已经完成，剩下的我们只需要根据相对应的业务和需求完善大量细节。<br>json表单也可以扩展为低代码动态拖拽生成表单，可以一定程度上解放前端的表单开发工作。<br>源码：<a href="https://github.com/jhavie/customize-form">JSON自定义表单</a></li>
+</ol>
+
+        </div>
+        
+
+    </article>
+    
+    <section id="comments">
+        
+    </section>
+
+
+    
+
+</main>
+
+<aside style="" id="sidebar" class="aside aside-fixture">
+    <div class="widgets">
+        
+            
+
+        
+            
+    <div class="widget">
+        <h3 class="widget-title">
+            标签
+        </h3>
+        <div class="widget-body">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/" rel="tag">Javascript</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React-js/" rel="tag">React.js</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E7%90%86/" rel="tag">原理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E8%B7%B5/" rel="tag">实践</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag">课程笔记</a><span class="tag-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+
+        
+            
+    <div class="widget">
+        
+        <h3 class="widget-title">标签云</h3>
+        
+        <div class="widget-body tagcloud">
+            <a href="/tags/CSS/" style="font-size: 13px;">CSS</a> <a href="/tags/Javascript/" style="font-size: 13.8px;">Javascript</a> <a href="/tags/React-js/" style="font-size: 13.2px;">React.js</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 14px;">前端</a> <a href="/tags/%E5%8E%9F%E7%90%86/" style="font-size: 13px;">原理</a> <a href="/tags/%E5%AE%9E%E8%B7%B5/" style="font-size: 13.4px;">实践</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13px;">工具</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 13px;">插件</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 13px;">源码</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13px;">算法</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 13.8px;">编程</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13.4px;">设计模式</a> <a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" style="font-size: 13.6px;">课程笔记</a>
+        </div>
+    </div>
+
+
+        
+            
+    <div class="widget">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget-body">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+
+        
+            
+<div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+        <ul class="recent-post-list list-unstyled">
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/10/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="title">设计模式之适配器模式</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-10-11T09:55:35.000Z" itemprop="datePublished">2021-10-11</time>
+                        </p>
+                    </div>
+                </li>
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/10/11/%E5%A4%9A%E7%8A%B6%E6%80%81%E9%A1%B5%E9%9D%A2%E7%9A%84%E9%80%9A%E7%94%A8%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1/" class="title">多状态页面的通用代码设计</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-10-11T08:00:46.000Z" itemprop="datePublished">2021-10-11</time>
+                        </p>
+                    </div>
+                </li>
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/10/10/JSON%E8%A1%A8%E5%8D%95%E7%9A%84%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E4%B8%8E%E9%80%89%E6%8B%A9/" class="title">JSON表单的方案设计与选择</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-10-10T14:55:45.000Z" itemprop="datePublished">2021-10-10</time>
+                        </p>
+                    </div>
+                </li>
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/10/06/Vue%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/" class="title">Vue插件开发实践及原理</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-10-06T03:59:38.000Z" itemprop="datePublished">2021-10-06</time>
+                        </p>
+                    </div>
+                </li>
+            
+                <li>
+                    <div class="recent-post">
+                        <p class="item-category">
+                            
+                        </p>
+                        <p class="item-title">
+                            <a href="/2021/08/22/%E7%AE%97%E6%B3%95%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="title">算法之动态规划</a>
+                        </p>
+                        <p class="item-date">
+                            <time datetime="2021-08-22T14:37:05.000Z" itemprop="datePublished">2021-08-22</time>
+                        </p>
+                    </div>
+                </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+        
+    </div>
+</aside>
+
+
+
+
+
+        </section>
+        <footer class="hidden lg:block fixed bottom-0 left-0 sm:w-1/12 lg:w-1/6 bg-gray-100 z-40">
+    
+    <div class="footer-social-links">
+        
+            <a href="/atom.xml">
+                <i class="iconfont icon-rss"></i>
+            </a>
+        
+    </div>
+    
+    
+</footer>
+
+        <div id="mask" class="hidden mask fixed inset-0 bg-gray-900 opacity-75 z-40"></div>
+        <div id="search-view-container" class="hidden shadow-xl"></div>
+        
+<script src="/js/dom-event.min.js"></script>
+
+
+
+<script src="/js/local-search.min.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
+    
+<script src="/js/light-gallery.min.js"></script>
+
+
+
+
+
+
+    </body>
+</html>
